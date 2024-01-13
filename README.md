@@ -19,3 +19,15 @@ In this launch file, there is an arg `window_size' (the size of the averaging wi
 
 After starting these codes, the action client node ask you the target position by saying "Enter the target x-coordinate:" and "Enter the target y-coordinate:". That's how you can set the target position.
 After setting the position, it asks you that "Do you cancel the goal? (y/n):" and if you type "y", you can cancel the goal.
+
+# Calling the service nodes
+## Get the last target (service)
+To get the latest target set by the user, you have to call `/get_target_info` with the following code.
+```bash
+rosservice call /get_target_info
+```
+## Get target distance and average velocity.
+To get the target distance and average velocity, you have to call `/get_robot_status` with the following code.
+```bash
+rosservice call /get_robot_status
+```
