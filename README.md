@@ -74,3 +74,6 @@ if __name__ is "__main__":
     except ROSInterruptException:
         handle ROSInterruptException
 ```
+
+# Further improvements
+Author doesn't have prerequisite knowledge of ROS, so these codes may not be so elegant. The naming of nodes and variables could have been made a little easier to understand.
