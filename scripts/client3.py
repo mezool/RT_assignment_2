@@ -9,17 +9,22 @@ from assignment_2_2023.srv import GetTargetPosition
 
 class ActionClientNode:
     def __init__(self):
+        #initialize ROS node
         rospy.init_node('action_client_node')
 
+        #Create action client node
         self.action_client = actionlib.SimpleActionClient('/reaching_goal', PlanningAction)
         self.action_client.wait_for_server()
 
+        # Publish Custom msg
         self.robot_info_pub = rospy.Publisher('/robot_info', Custom, queue_size=10)
         self.robot_target_pub = rospy.Publisher('/target_info', Goal, queue_size=10)
 
+        # Subscribe information
         rospy.Subscriber('/odom', Odometry, self.odom_callback)
 
     def odom_callback(self, odom_msg):
+        # Publish the msgs of robot's position and velocity
         custom_msg = Custom()
         custom_msg.robpos_x = odom_msg.pose.pose.position.x
         custom_msg.robpos_y = odom_msg.pose.pose.position.y
@@ -32,8 +37,7 @@ class ActionClientNode:
         target_x = float(input("Enter the target x-coordinate: "))
         target_y = float(input("Enter the target y-coordinate: "))
 
-        # # Update the ROS parameter with the goal information
-        # rospy.set_param('/goal_target', {'x': target_x, 'y': target_y})
+        # set goal position and publish the msg
         
         goal = PlanningGoal()
         goal.target_pose.header = Header()
@@ -47,12 +51,11 @@ class ActionClientNode:
         target_msg.target_x = target_x
         target_msg.target_y = target_y
 
-        self.robot_target_pub.publish(target_msg)
-        # get_goal_position_service = rospy.ServiceProxy('/get_goal_position', GetTargetPosition)
-        
+        self.robot_target_pub.publish(target_msg)        
         # self.action_client.send_goal(goal, feedback_cb=self.feedback_callback) # for debug
         self.action_client.send_goal(goal)
 
+        # code about cancel the goal
         cancel_input = input("Do you cancel the goal? (y/n): ")
         if cancel_input.lower() == 'y':
             self.action_client.cancel_goal()
