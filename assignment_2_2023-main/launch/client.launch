@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-    <node pkg="assignment_2_2023" type="client3.py" name="client3" output="screen" />
-    <node pkg="assignment_2_2023" type="get_target_position_node.py" name="GetTargetPosition" output="screen" />
-</launch>
