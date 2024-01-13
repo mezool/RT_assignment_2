@@ -3,7 +3,6 @@
 import rospy
 import actionlib
 from std_msgs.msg import Header
-# from custom_msgs.msg import CustomMessage
 from assignment_2_2023.msg import PlanningAction, PlanningGoal, Custom, Goal
 from nav_msgs.msg import Odometry
 from assignment_2_2023.srv import GetTargetPosition
@@ -16,6 +15,7 @@ class ActionClientNode:
         self.action_client.wait_for_server()
 
         self.robot_info_pub = rospy.Publisher('/robot_info', Custom, queue_size=10)
+        self.robot_target_pub = rospy.Publisher('/target_info', Goal, queue_size=10)
 
         rospy.Subscriber('/odom', Odometry, self.odom_callback)
 
@@ -42,20 +42,20 @@ class ActionClientNode:
         goal.target_pose.pose.position.x = target_x
         goal.target_pose.pose.position.y = target_y
         goal.target_pose.pose.orientation.w = 1.0  # Facing forward
+        
         target_msg = Goal()
         target_msg.target_x = target_x
         target_msg.target_y = target_y
 
-        self.robot_info_pub.publish(target_msg)
-
+        self.robot_target_pub.publish(target_msg)
         # get_goal_position_service = rospy.ServiceProxy('/get_goal_position', GetTargetPosition)
         
-
-        self.action_client.send_goal(goal, feedback_cb=self.feedback_callback)
+        # self.action_client.send_goal(goal, feedback_cb=self.feedback_callback) # for debug
+        self.action_client.send_goal(goal)
 
         cancel_input = input("Do you cancel the goal? (y/n): ")
         if cancel_input.lower() == 'y':
-            self.client.cancel_goal()
+            self.action_client.cancel_goal()
             print("Goal has been canceled.")
             return
         # Wait for the result or cancellation
@@ -67,7 +67,7 @@ class ActionClientNode:
 
     def feedback_callback(self, feedback):
         # Handle feedback here if needed
-        print("Feedback received:", feedback)
+        print("Feedback received:", feedback) # for debug
 
 if __name__ == "__main__":
     try:
@@ -75,9 +75,6 @@ if __name__ == "__main__":
 
         # Example: Set a goal interactively
         client_node.set_goal_interactively()
-
-        # Example: Cancel the goal
-        #client_node.cancel_goal()
 
         rospy.spin()
 

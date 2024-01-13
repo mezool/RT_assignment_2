@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
 <launch>
+    <arg name="window_size" default="10" />
     <node pkg="assignment_2_2023" type="client3.py" name="client3" output="screen" />
     <node pkg="assignment_2_2023" type="get_target_position_node.py" name="GetTargetPosition" output="screen" />
+    <node pkg="assignment_2_2023" type="robot_status_node.py" name="GetRobotStatus" output="screen">
+        <rosparam param="window_size"> $(arg window_size)</rosparam>
+    </node>
 </launch>
