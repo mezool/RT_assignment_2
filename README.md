@@ -11,3 +11,10 @@ To start Rviz, Gazebo and Action Service Node, please start the launch file with
 ```bash
 roslaunch assignment_2_2023 assignment1.launch
 ```
+Then please start the next launch file which starts action client node and service nodes with the following code.
+```bash
+roslaunch assignment_2_2023 client.launch window_size:=5
+```
+In this launch file, there is an arg `window_size' (the size of the averaging window to calculate the robot's average speed.). In this case, the value is set as 5. If the argument is not set, the parameter takes the default value of 10.
+
+After starting these codes, the action client node ask you the target position by saying "Enter the target x-coordinate:" and "Enter the target y-coordinate:"
