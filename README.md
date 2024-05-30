@@ -1,5 +1,9 @@
 # RT Second Assignment
 This repository contains the codes of the second assignment for Research Track I course.
+I added the documentation (for Research Track Ⅱ course).
+
+# Documentation
+You can see the documentation of this repository from [here](https://mezool.github.io/RT_assignment_2/). 
 
 # What I did
 Apart from the codes already given, I made three python codes (client3.py, get_target_position_node.py, robot_status_node.py), msg files and srv files to run the python codes, and a launch file to launch action client and service nodes.
